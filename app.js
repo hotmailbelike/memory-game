@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		let cards = document.querySelectorAll('img');
 		const optionOneId = cardsChosenId[0];
 		const optionTwoId = cardsChosenId[1];
-		if (cardsChosen[0] === cardsChosen[1]) {
+		if (cardsChosen[0] === cardsChosen[1] && cardsChosenId[0] != cardsChosenId[1]) {
 			alert("It's a Match!");
 			cards[optionOneId].setAttribute('src', 'images/white.png');
 			cards[optionTwoId].setAttribute('src', 'images/white.png');
@@ -90,14 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
 		cardsChosen = [];
 		cardsChosenId = [];
 		resultDisplay.textContent = cardsWon.length;
+		console.log(cardsWon.length);
+		console.log(cardArray.length / 2);
 		if (cardsWon.length === cardArray.length / 2) {
 			resultDisplay.textContent = 'You found them all!';
+			playAgain(resultDisplay.textContent);
 		}
 	};
 
 	//flip card
 	function flipCard() {
 		let cardId = this.getAttribute('data-id');
+		let src = this.getAttribute('src');
+		if (src === 'images/white.png') {
+			return alert('You cannot select that!');
+		}
 		cardsChosen.push(cardArray[cardId].name);
 		cardsChosenId.push(cardId);
 		this.setAttribute('src', cardArray[cardId].img);
@@ -107,3 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	createBoard();
 });
+
+const playAgain = (msg) => {
+	setTimeout(() => {
+		alert(msg + ' \n Press Okay to play again!');
+		location.reload();
+	}, 10);
+};
